@@ -7,6 +7,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { USER_MODEL, UserDocument } from './entities/user.entity';
 import { Model } from 'mongoose';
+import { error } from 'console';
 
 @Injectable()
 export class UserService {
@@ -32,9 +33,10 @@ export class UserService {
       return users;
     } catch (error) {}
   }
-  async findById(id: string) {
+  async findById(age: number) {
     try {
-      const user = await this.usermodel.findById(id);
+      const user = await this.usermodel.findOne({ age });
+      if (user === undefined || user == null) throw error;
       return user;
     } catch (error) {
       throw new NotFoundException();
