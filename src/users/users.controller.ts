@@ -7,10 +7,12 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './users.service';
 import { createUserDto } from './dto/createuserdto.dto';
 import { userPipe } from './pipes/users.pipe';
+import { UserGuard } from './guards/user.guard';
 
 @Controller('users')
 export class UsersController {
@@ -27,6 +29,7 @@ export class UsersController {
   }
 
   @Get(':age')
+  @UseGuards(new UserGuard())
   findone(@Param('age', ParseIntPipe) age: number) {
     console.log(age, typeof age);
     return this.userService.findById(age);
